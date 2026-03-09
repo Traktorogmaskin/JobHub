@@ -374,7 +374,7 @@
 
           <div class="field">
             <label for="labelGapValue">Avstand</label>
-            <input type="number" id="labelGapValue" min="0" max="20" step="1" value="6" />
+            <input type="number" id="labelGapValue" min="0" max="60" step="1" value="6" />
           </div>
         </div>
 
@@ -522,7 +522,7 @@
       });
 
       elements.qrSizeValue.addEventListener("input", () => {
-        const value = clamp(Number(elements.qrSizeValue.value), 20, 260);
+        const value = clamp(Number(elements.qrSizeValue.value), 31, 260);
         elements.qrSize.value = String(value);
         elements.qrSizeValue.value = String(value);
         refreshQrPreview();
@@ -534,7 +534,7 @@
       });
 
       elements.labelSizeValue.addEventListener("input", () => {
-        const value = clamp(Number(elements.labelSizeValue.value), 8, 18);
+        const value = clamp(Number(elements.labelSizeValue.value), 3, 18);
         elements.labelSize.value = String(value);
         elements.labelSizeValue.value = String(value);
         refreshQrPreview();
@@ -634,7 +634,7 @@
       const qrSize = getQrSize();
       const label = getLabelMetrics();
       const gap = getLabelGap();
-const safeGap = Math.min(gap, qrSize * 1.5);
+const safeGap = Math.min(Gap, qrSize * 1.5);
       const layout = elements.textLayout.value;
       const padding = 12;
 
@@ -647,14 +647,14 @@ const safeGap = Math.min(gap, qrSize * 1.5);
 
       if (layout === "left" || layout === "right") {
         return {
-          width: qrSize + label.width + safegap + padding,
+          width: qrSize + label.width + safeGap + padding,
           height: Math.max(qrSize, label.height) + padding
         };
       }
 
       return {
         width: Math.max(qrSize, label.width) + padding,
-        height: qrSize + label.height + safegap + padding
+        height: qrSize + label.height + safeGap + padding
       };
     }
 
