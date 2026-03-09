@@ -624,6 +624,7 @@
 
       const text = elements.qrText.value.trim();
       const fontSize = getLabelSize();
+
       return {
         width: Math.max(40, measureTextWidth(text, fontSize) + 14),
         height: fontSize + 14
@@ -634,7 +635,7 @@
       const qrSize = getQrSize();
       const label = getLabelMetrics();
       const gap = getLabelGap();
-const safeGap = Math.min(Gap, qrSize * 1.5);
+      const safeGap = Math.min(gap, qrSize * 1.5);
       const layout = elements.textLayout.value;
       const padding = 12;
 
@@ -730,6 +731,7 @@ const safeGap = Math.min(Gap, qrSize * 1.5);
       const qrSize = getQrSize();
       const labelSize = getLabelSize();
       const gap = getLabelGap();
+      const safeGap = Math.min(gap, qrSize * 1.5);
       const layout = elements.textLayout.value;
       const label = getLabelMetrics();
 
@@ -748,15 +750,15 @@ const safeGap = Math.min(Gap, qrSize * 1.5);
 
       if (layout === "bottom") {
         elements.qrContent.style.flexDirection = "column";
-        elements.qrContent.style.gap = `${safegap}px`;
+        elements.qrContent.style.gap = `${safeGap}px`;
         elements.qrContent.style.alignItems = "center";
       } else if (layout === "right") {
         elements.qrContent.style.flexDirection = "row";
-        elements.qrContent.style.gap = `${safegap}px`;
+        elements.qrContent.style.gap = `${safeGap}px`;
         elements.qrContent.style.alignItems = "center";
       } else if (layout === "left") {
         elements.qrContent.style.flexDirection = "row-reverse";
-        elements.qrContent.style.gap = `${safegap}px`;
+        elements.qrContent.style.gap = `${safeGap}px`;
         elements.qrContent.style.alignItems = "center";
       } else {
         elements.qrContent.style.flexDirection = "row";
@@ -913,11 +915,12 @@ const safeGap = Math.min(Gap, qrSize * 1.5);
         const qrSizePx = getQrSize();
         const labelSizePx = getLabelSize();
         const gapPx = getLabelGap();
+        const safeGapPx = Math.min(gapPx, qrSizePx * 1.5);
         const labelMetricsPx = getLabelMetrics();
 
         const qrSizePdf = (qrSizePx / state.previewWidth) * state.pdfPageWidth;
         const labelSizePdf = (labelSizePx / state.previewWidth) * state.pdfPageWidth;
-        const gapPdf = (gapPx / state.previewWidth) * state.pdfPageWidth;
+        const safeGapPdf = (safeGapPx / state.previewWidth) * state.pdfPageWidth;
         const labelWidthPdf = (labelMetricsPx.width / state.previewWidth) * state.pdfPageWidth;
 
         const qrDataUrl = await createQrPngDataUrl(url, Math.max(400, qrSizePx * 5));
@@ -951,12 +954,12 @@ const safeGap = Math.min(Gap, qrSize * 1.5);
 
             if (layout === "bottom") {
               textX = pdfX + Math.max(0, (qrSizePdf - textWidth) / 2);
-              textY = Math.max(4, pdfQrY - labelSizePdf - gapPdf);
+              textY = Math.max(4, pdfQrY - labelSizePdf - safeGapPdf);
             } else if (layout === "right") {
-              textX = pdfX + qrSizePdf + gapPdf;
+              textX = pdfX + qrSizePdf + safeGapPdf;
               textY = pdfQrY + (qrSizePdf / 2) - (labelSizePdf / 2);
             } else if (layout === "left") {
-              textX = Math.max(4, pdfX - labelWidthPdf - gapPdf);
+              textX = Math.max(4, pdfX - labelWidthPdf - safeGapPdf);
               textY = pdfQrY + (qrSizePdf / 2) - (labelSizePdf / 2);
             }
 
