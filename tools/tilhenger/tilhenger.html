@@ -1,29 +1,120 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Tilhengerkalkulator</title>
-
-<link rel="stylesheet" href="tilhenger.css">
-
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tilhengerkalkulator</title>
+  <link rel="stylesheet" href="tilhenger.css">
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
-
 <body>
+  <div class="page">
+    <div class="topbar">
+      <div>
+        <h1>Tilhengerkalkulator</h1>
+        <p class="lead">
+          Arbeidsversjon i JobHub. Denne brukes for å lære struktur, logikk og videre oppbygging.
+        </p>
+      </div>
+    </div>
 
-<div class="page">
+    <div class="main-grid">
+      <div class="stack">
+        <section class="card input-card">
+          <div class="section-head">
+            <h2>1) Legg inn tall</h2>
+            <div class="section-meta">Tonn med desimaler</div>
+          </div>
 
-<h1>Tilhengerkalkulator</h1>
+          <div class="input-grid">
+            <div class="field-row">
+              <div class="field-title">Traktor egenvekt</div>
+              <div class="input-wrap">
+                <div id="shellTractor" class="input-shell">
+                  <input id="tractorWeight" type="text" inputmode="decimal" placeholder="F.eks. 5,8">
+                  <span class="unit">tonn</span>
+                </div>
+                <div id="errorTractor" class="field-error"></div>
+              </div>
+              <button id="btnFillMinTractor" class="btn btn-orange" type="button">Sett minimum traktorvekt</button>
+            </div>
 
-<p>Arbeidsversjon i JobHub.</p>
+            <div class="field-row">
+              <div class="field-title">Tilhenger totalvekt</div>
+              <div class="input-wrap">
+                <div id="shellTrailer" class="input-shell">
+                  <input id="trailerWeight" type="text" inputmode="decimal" placeholder="F.eks. 16,2">
+                  <span class="unit">tonn</span>
+                </div>
+                <div id="errorTrailer" class="field-error"></div>
+              </div>
+              <button id="btnFillMaxTrailer" class="btn btn-orange" type="button">Sett max tilhengervekt</button>
+            </div>
 
-</div>
+            <div class="field-row">
+              <div class="field-title">Effekt (HK)</div>
+              <div class="input-wrap">
+                <div id="shellHp" class="input-shell">
+                  <input id="horsePower" type="text" inputmode="numeric" placeholder="F.eks. 160">
+                  <span class="unit">HK</span>
+                </div>
+                <div id="errorHp" class="field-error"></div>
+              </div>
+              <button id="btnFillMinHp" class="btn btn-orange" type="button">Sett minimum HK</button>
+            </div>
+          </div>
 
-<script src="tilhenger.js"></script>
+          <div class="toolbar">
+            <button id="btnReset" class="btn btn-secondary" type="button">Nullstill</button>
+          </div>
 
+          <div class="toolbar-note">
+            Vekter skrives i tonn. Desimaler er tillatt.
+          </div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="card result-card">
+          <div class="result-topline">
+            <div class="title">2) Resultat</div>
+          </div>
+
+          <div class="status-note">
+            <div class="status-note-top">
+              <div>
+                <div id="bannerTitle" class="status-note-title">Klar til beregning</div>
+                <div id="bannerText" class="status-note-text">Legg inn tall for å se resultat.</div>
+              </div>
+              <div id="bannerStatus" class="status-pill muted">—</div>
+            </div>
+            <div id="statusHelpList" class="status-note-list"></div>
+          </div>
+
+          <div class="results-grid">
+            <div class="result-box">
+              <div class="k">Maks tilhenger</div>
+              <div id="statMaxTrailer" class="v">—</div>
+              <div class="s">Veiledende verdi</div>
+            </div>
+
+            <div class="result-box">
+              <div class="k">Min traktor</div>
+              <div id="statMinTractor" class="v">—</div>
+              <div class="s">Veiledende verdi</div>
+            </div>
+
+            <div class="result-box">
+              <div class="k">Min HK</div>
+              <div id="statMinHp" class="v">—</div>
+              <div class="s">Veiledende verdi</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="tilhenger.js"></script>
 </body>
 </html>
