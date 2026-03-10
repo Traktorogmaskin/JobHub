@@ -9,41 +9,55 @@
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 
   <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --border: #cbd5e1;
+      --muted: #6b7280;
+      --text: #111827;
+      --blue: #2563eb;
+      --blue-soft: #dbeafe;
+      --blue-outline: #93c5fd;
+      --gray-btn: #e5e7eb;
+      --gray-btn-hover: #d1d5db;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
       margin: 0;
       padding: 24px;
-      color: #111827;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
     }
 
     .page {
-      max-width: 1460px;
+      max-width: 1480px;
       margin: 0 auto;
-    }
-
-    .topbar {
-      margin-bottom: 18px;
     }
 
     .back-link {
       display: inline-block;
+      margin-bottom: 10px;
       text-decoration: none;
-      color: #1d4ed8;
+      color: var(--blue);
       font-weight: bold;
-      margin-bottom: 12px;
     }
 
     .title {
-      font-size: 34px;
       margin: 0 0 8px;
       text-align: center;
+      font-size: 34px;
     }
 
     .subtitle {
       margin: 0 0 20px;
       text-align: center;
-      color: #4b5563;
+      color: var(--muted);
     }
 
     .layout {
@@ -55,43 +69,44 @@
 
     .panel,
     .preview-panel {
-      background: white;
+      background: var(--panel);
       border-radius: 14px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow);
       padding: 18px;
     }
 
-    .panel h2 {
+    h2 {
       margin: 0 0 14px;
       font-size: 20px;
     }
 
     .field {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .field label,
-    .section-label {
+    .section-label,
+    .field label {
       display: block;
-      font-weight: bold;
       margin-bottom: 8px;
       font-size: 14px;
+      font-weight: bold;
     }
 
-    .field input,
-    .field button {
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
       width: 100%;
-      box-sizing: border-box;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
       font: inherit;
     }
 
-    .field input[type="text"],
-    .field input[type="number"],
-    .field input[type="file"] {
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 10px 12px;
-      background: #fff;
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .range-input {
@@ -102,9 +117,8 @@
       border-radius: 999px;
       background: #d1d5db;
       outline: none;
-      padding: 0;
       border: 0;
-      margin: 12px 0 0;
+      margin-top: 12px;
     }
 
     .range-input::-webkit-slider-runnable-track {
@@ -119,7 +133,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #1d4ed8;
+      background: var(--blue);
       border: 0;
       margin-top: -6px;
       cursor: pointer;
@@ -137,29 +151,25 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #1d4ed8;
+      background: var(--blue);
       border: 0;
       cursor: pointer;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
     }
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
     .btn {
+      width: 100%;
       border: 0;
       border-radius: 10px;
       padding: 12px 14px;
-      cursor: pointer;
+      font: inherit;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .btn-primary {
-      background: #2563eb;
-      color: white;
+      background: var(--blue);
+      color: #fff;
     }
 
     .btn-primary:hover {
@@ -167,104 +177,45 @@
     }
 
     .btn-secondary {
-      background: #e5e7eb;
-      color: #111827;
+      background: var(--gray-btn);
+      color: var(--text);
     }
 
     .btn-secondary:hover {
-      background: #d1d5db;
+      background: var(--gray-btn-hover);
     }
 
     .active-choice {
-      background: #dbeafe;
-      color: #1d4ed8;
-      outline: 2px solid #93c5fd;
+      background: var(--blue-soft);
+      color: var(--blue);
+      outline: 2px solid var(--blue-outline);
     }
-
-    .choice-grid {
-      display: grid;
-      gap: 10px;
-    }
-
-    .choice-grid.two {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .choice-grid.five {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .choice-grid.five .center-span {
-      grid-column: 1 / span 2;
-    }
-
-    .visual-grid {
-      display: grid;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .visual-grid.qr-grid {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-areas:
-        "top-left . top-right"
-        ". center ."
-        "bottom-left . bottom-right";
-    }
-
-    .visual-grid.text-grid {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-areas:
-        ". top ."
-        "left . right"
-        ". bottom ."
-        "hidden hidden hidden";
-    }
-
-    .visual-btn {
-      min-height: 46px;
-      padding: 10px 8px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .qr-top-left { grid-area: top-left; }
-    .qr-top-right { grid-area: top-right; }
-    .qr-center { grid-area: center; }
-    .qr-bottom-left { grid-area: bottom-left; }
-    .qr-bottom-right { grid-area: bottom-right; }
-
-    .text-top { grid-area: top; }
-    .text-left { grid-area: left; }
-    .text-right { grid-area: right; }
-    .text-bottom { grid-area: bottom; }
-    .text-hidden { grid-area: hidden; }
 
     .hint {
+      margin-top: 10px;
       color: #4b5563;
       font-size: 13px;
       line-height: 1.5;
-      margin-top: 10px;
     }
 
     .status {
       margin-top: 14px;
       min-height: 24px;
-      font-size: 14px;
       color: #374151;
+      font-size: 14px;
     }
 
     .preview-header {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
       margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
     .preview-meta {
-      color: #4b5563;
+      color: var(--muted);
       font-size: 14px;
     }
 
@@ -280,7 +231,7 @@
     .stage {
       position: relative;
       margin: 0 auto;
-      background: white;
+      background: #fff;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
       user-select: none;
     }
@@ -289,54 +240,160 @@
       display: block;
     }
 
-    .qr-overlay {
-      position: absolute;
-      left: 40px;
-      top: 40px;
-      cursor: move;
-      display: none;
-      z-index: 5;
-    }
-
-    .qr-content {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      background: rgba(255, 255, 255, 0.94);
-      border: 2px dashed #2563eb;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
-      padding: 6px;
-      gap: 6px;
-    }
-
-    .qr-box {
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
-    }
-
-    .qr-label {
-      line-height: 1.1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 6px;
-      padding: 4px 6px;
-      flex: 0 0 auto;
-    }
-
     .empty-preview {
       min-height: 600px;
       display: grid;
       place-items: center;
-      color: #6b7280;
-      font-size: 16px;
       text-align: center;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .qr-overlay {
+      position: absolute;
+      left: 40px;
+      top: 40px;
+      display: none;
+      cursor: move;
+      z-index: 5;
+    }
+
+    .qr-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 6px;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 2px dashed var(--blue);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    }
+
+    .qr-box {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+
+    .qr-label {
+      flex: 0 0 auto;
+      padding: 4px 6px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.96);
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .choice-grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .visual-pad {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .visual-pad.qr-pad {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        "qtl . qtr"
+        ". qmc ."
+        "qbl . qbr";
+    }
+
+    .visual-pad.text-pad {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        ". ttop ."
+        "tleft . tright"
+        ". tbottom ."
+        "thidden thidden thidden";
+    }
+
+    .mini-btn {
+      min-height: 52px;
+      padding: 10px 8px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-btn .mini-icon {
+      width: 22px;
+      height: 22px;
+      margin: 0 auto 6px;
+      border: 2px solid currentColor;
+      border-radius: 4px;
+      position: relative;
+      opacity: 0.9;
+    }
+
+    .mini-btn .mini-icon::after {
+      content: "";
+      position: absolute;
+      background: currentColor;
+      border-radius: 3px;
+      opacity: 0.85;
+    }
+
+    .qr-tl { grid-area: qtl; }
+    .qr-tr { grid-area: qtr; }
+    .qr-c  { grid-area: qmc; }
+    .qr-bl { grid-area: qbl; }
+    .qr-br { grid-area: qbr; }
+
+    .text-top    { grid-area: ttop; }
+    .text-left   { grid-area: tleft; }
+    .text-right  { grid-area: tright; }
+    .text-bottom { grid-area: tbottom; }
+    .text-none   { grid-area: thidden; }
+
+    .qr-tl .mini-icon::after {
+      width: 8px; height: 8px; top: 2px; left: 2px;
+    }
+
+    .qr-tr .mini-icon::after {
+      width: 8px; height: 8px; top: 2px; right: 2px;
+    }
+
+    .qr-c .mini-icon::after {
+      width: 8px; height: 8px; top: 5px; left: 5px;
+    }
+
+    .qr-bl .mini-icon::after {
+      width: 8px; height: 8px; bottom: 2px; left: 2px;
+    }
+
+    .qr-br .mini-icon::after {
+      width: 8px; height: 8px; bottom: 2px; right: 2px;
+    }
+
+    .text-top .mini-icon::after {
+      width: 12px; height: 4px; top: 1px; left: 3px;
+    }
+
+    .text-left .mini-icon::after {
+      width: 4px; height: 12px; top: 3px; left: 1px;
+    }
+
+    .text-right .mini-icon::after {
+      width: 4px; height: 12px; top: 3px; right: 1px;
+    }
+
+    .text-bottom .mini-icon::after {
+      width: 12px; height: 4px; bottom: 1px; left: 3px;
+    }
+
+    .text-none .mini-icon::after {
+      width: 14px; height: 2px; top: 9px; left: 2px; transform: rotate(-35deg);
     }
 
     @media (max-width: 1100px) {
@@ -348,11 +405,9 @@
 </head>
 <body>
   <div class="page">
-    <div class="topbar">
-      <a class="back-link" href="https://traktorogmaskin.github.io/Jobbhub/">← Tilbake til Jobbhub</a>
-      <h1 class="title">QR-editor for PDF</h1>
-      <p class="subtitle">Dra QR-en dit du vil, bruk hurtigknapper for plassering, og lagre når det ser riktig ut.</p>
-    </div>
+    <a class="back-link" href="https://traktorogmaskin.github.io/Jobbhub/">← Tilbake til Jobbhub</a>
+    <h1 class="title">QR-editor for PDF</h1>
+    <p class="subtitle">Dra QR-en dit du vil, bruk hurtigknapper for plassering, og lagre når det ser riktig ut.</p>
 
     <div class="layout">
       <section class="panel">
@@ -375,23 +430,53 @@
 
         <div class="field">
           <div class="section-label">QR-plassering</div>
-          <div class="visual-grid qr-grid">
-            <button class="btn btn-secondary visual-btn qr-place-btn qr-top-left" type="button" data-place="top-left">Oppe til venstre</button>
-            <button class="btn btn-secondary visual-btn qr-place-btn qr-top-right" type="button" data-place="top-right">Oppe til høyre</button>
-            <button class="btn btn-secondary visual-btn qr-place-btn qr-center" type="button" data-place="center">Midt på</button>
-            <button class="btn btn-secondary visual-btn qr-place-btn qr-bottom-left" type="button" data-place="bottom-left">Nede til venstre</button>
-            <button class="btn btn-secondary visual-btn qr-place-btn qr-bottom-right" type="button" data-place="bottom-right">Nede til høyre</button>
+          <div class="visual-pad qr-pad">
+            <button class="btn btn-secondary mini-btn qr-place-btn qr-tl" type="button" data-place="top-left">
+              <div class="mini-icon"></div>
+              <div>Oppe til venstre</div>
+            </button>
+            <button class="btn btn-secondary mini-btn qr-place-btn qr-tr" type="button" data-place="top-right">
+              <div class="mini-icon"></div>
+              <div>Oppe til høyre</div>
+            </button>
+            <button class="btn btn-secondary mini-btn qr-place-btn qr-c" type="button" data-place="center">
+              <div class="mini-icon"></div>
+              <div>Midt på</div>
+            </button>
+            <button class="btn btn-secondary mini-btn qr-place-btn qr-bl" type="button" data-place="bottom-left">
+              <div class="mini-icon"></div>
+              <div>Nede til venstre</div>
+            </button>
+            <button class="btn btn-secondary mini-btn qr-place-btn qr-br" type="button" data-place="bottom-right">
+              <div class="mini-icon"></div>
+              <div>Nede til høyre</div>
+            </button>
           </div>
         </div>
 
         <div class="field">
           <div class="section-label">Tekstplassering</div>
-          <div class="visual-grid text-grid">
-            <button class="btn btn-secondary visual-btn text-layout-btn text-top" type="button" data-layout="top">Over QR</button>
-            <button class="btn btn-secondary visual-btn text-layout-btn text-left" type="button" data-layout="left">Til venstre</button>
-            <button class="btn btn-secondary visual-btn text-layout-btn text-right" type="button" data-layout="right">Til høyre</button>
-            <button class="btn btn-secondary visual-btn text-layout-btn text-bottom" type="button" data-layout="bottom">Under QR</button>
-            <button class="btn btn-secondary visual-btn text-layout-btn text-hidden" type="button" data-layout="hidden">Ingen tekst</button>
+          <div class="visual-pad text-pad">
+            <button class="btn btn-secondary mini-btn text-layout-btn text-top" type="button" data-layout="top">
+              <div class="mini-icon"></div>
+              <div>Over QR</div>
+            </button>
+            <button class="btn btn-secondary mini-btn text-layout-btn text-left" type="button" data-layout="left">
+              <div class="mini-icon"></div>
+              <div>Til venstre</div>
+            </button>
+            <button class="btn btn-secondary mini-btn text-layout-btn text-right" type="button" data-layout="right">
+              <div class="mini-icon"></div>
+              <div>Til høyre</div>
+            </button>
+            <button class="btn btn-secondary mini-btn text-layout-btn text-bottom" type="button" data-layout="bottom">
+              <div class="mini-icon"></div>
+              <div>Under QR</div>
+            </button>
+            <button class="btn btn-secondary mini-btn text-layout-btn text-none" type="button" data-layout="hidden">
+              <div class="mini-icon"></div>
+              <div>Ingen tekst</div>
+            </button>
           </div>
         </div>
 
@@ -433,8 +518,8 @@
 
         <div class="field">
           <div class="section-label">Legg QR på</div>
-          <div class="choice-grid two">
-            <button class="btn btn-secondary apply-mode-btn active-choice" type="button" data-apply="first">Kun første side</button>
+          <div class="choice-grid-two">
+            <button class="btn btn-secondary apply-mode-btn" type="button" data-apply="first">Kun første side</button>
             <button class="btn btn-secondary apply-mode-btn" type="button" data-apply="all">Alle sider</button>
           </div>
         </div>
@@ -444,7 +529,7 @@
         </div>
 
         <div class="hint">
-          QR-plassering og tekstplassering er nå vist som posisjonsruter. Velg grovplassering med knapp, og dra deretter QR-en med musen.
+          Knappene over er nå mer visuelle. Velg grovplassering først, og dra deretter QR-en med musen for finjustering.
         </div>
 
         <div class="status" id="status"></div>
