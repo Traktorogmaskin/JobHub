@@ -7,7 +7,7 @@
 
   <meta
     name="description"
-    content="JobHub samler praktiske arbeidsverktøy, generatorer, kalkulatorer og dokumentmoduler på ett sted."
+    content="JobHub samler praktiske arbeidsverktøy, dokumentverktøy, generatorer og kalkulatorer på ett sted."
   />
   <meta name="application-name" content="JobHub" />
   <meta name="theme-color" content="#f2633d" />
@@ -15,269 +15,869 @@
   <meta property="og:title" content="JobHub" />
   <meta
     property="og:description"
-    content="Baseplattform for praktiske arbeidsverktøy, dokumentmoduler og kalkulatorer."
+    content="Intern plattform for praktiske arbeidsverktøy, dokumentverktøy, generatorer og kalkulatorer."
   />
   <meta property="og:type" content="website" />
 
   <link rel="canonical" href="https://traktorogmaskin.github.io/JobHub/" />
-  <link rel="stylesheet" href="css/index.css" />
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f9fafc;
+      --border: #d9e0ea;
+      --text: #1f2937;
+      --muted: #667085;
+      --primary: #f2633d;
+      --primary-dark: #d94d28;
+      --success: #137a4b;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+      --radius-small: 12px;
+      --max-width: 1440px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: -100px;
+      z-index: 1000;
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .skip-link:focus {
+      top: 12px;
+    }
+
+    #app-shell {
+      min-height: 100vh;
+    }
+
+    #global-header {
+      background: linear-gradient(135deg, #ffffff 0%, #fff7f3 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 24px;
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+      align-items: end;
+    }
+
+    #brand-eyebrow {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    #brand-title {
+      margin: 0;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.05;
+    }
+
+    #brand-description {
+      margin: 12px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    #global-tools {
+      display: grid;
+      gap: 16px;
+      justify-items: end;
+    }
+
+    #global-search-form {
+      width: 100%;
+      max-width: 520px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    #global-search-form label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    #global-search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      outline: none;
+    }
+
+    #global-search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(242, 99, 61, 0.12);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    #user-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: end;
+    }
+
+    #platform-layout {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    #sidebar {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+      position: sticky;
+      top: 18px;
+      height: fit-content;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .panel p,
+    .panel li {
+      color: var(--muted);
+    }
+
+    #primary-navigation ul,
+    #module-status-overview ul,
+    #quick-links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    #primary-navigation a,
+    #quick-links a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--surface-soft);
+    }
+
+    #primary-navigation a:hover,
+    #quick-links a:hover {
+      background: #fff1ec;
+      color: var(--primary-dark);
+    }
+
+    #main-content {
+      display: grid;
+      gap: 24px;
+      min-width: 0;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #ffffff 0%, #fff8f5 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 840px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .hero-actions {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .stat-label {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stat-value {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .content-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .content-section header {
+      margin-bottom: 18px;
+    }
+
+    .content-section h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .content-section p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .module-grid,
+    .category-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .category-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .category-panel {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .category-panel h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .module-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      transition: 0.15s ease;
+    }
+
+    .module-card:hover {
+      border-color: #f0b29f;
+      transform: translateY(-1px);
+    }
+
+    .module-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .module-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--success);
+      background: #edf8f2;
+      border: 1px solid #ccebd8;
+      border-radius: 999px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+
+    .module-card h4 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .module-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .module-card-actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .module-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .module-link:hover {
+      background: var(--primary-dark);
+    }
+
+    .module-meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .empty-card {
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fcfcfd;
+      color: var(--muted);
+    }
+
+    .principles-list {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 8px;
+    }
+
+    #global-footer {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px 24px;
+    }
+
+    #global-footer-inner {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+      color: var(--muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1100px) {
+      .header-inner,
+      #platform-layout,
+      .stats-grid,
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #sidebar {
+        position: static;
+      }
+
+      #global-tools {
+        justify-items: stretch;
+      }
+
+      #user-area {
+        justify-content: start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      #global-header,
+      #platform-layout,
+      #global-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .hero,
+      .content-section,
+      .panel {
+        padding: 18px;
+      }
+
+      .hero h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 <body data-app="jobhub" data-layout="platform" data-user-state="guest">
   <a href="#main-content" class="skip-link">Hopp til innhold</a>
 
-  <div id="app-shell" data-shell="jobhub">
+  <div id="app-shell">
     <header id="global-header" aria-label="Global toppbar">
-      <div id="brand-area">
-        <p id="brand-eyebrow">Internt verktøy · JobHub</p>
-        <h1 id="brand-title">JobHub</h1>
-        <p id="brand-description">
-          Baseplattform for praktiske arbeidsverktøy, moduler og arbeidsflyt.
-        </p>
-      </div>
+      <div class="header-inner">
+        <div id="brand-area">
+          <p id="brand-eyebrow">Internt verktøy</p>
+          <h1 id="brand-title">JobHub</h1>
+          <p id="brand-description">
+            Felles inngang til praktiske arbeidsverktøy, dokumentverktøy, generatorer og kalkulatorer.
+            Nye moduler legges inn automatisk når de opprettes riktig i mappestrukturen.
+          </p>
+        </div>
 
-      <div id="global-tools" aria-label="Globale verktøy">
-        <form id="global-search-form" role="search" aria-label="Globalt søk">
-          <label for="global-search-input">Søk</label>
-          <input
-            type="search"
-            id="global-search-input"
-            name="q"
-            placeholder="Søk etter verktøy, oppgave eller innhold"
-            autocomplete="off"
-          />
-          <button type="submit">Søk</button>
-        </form>
+        <div id="global-tools" aria-label="Globale verktøy">
+          <form id="global-search-form" role="search" aria-label="Globalt søk">
+            <label for="global-search-input">Søk</label>
+            <input
+              type="search"
+              id="global-search-input"
+              name="q"
+              placeholder="Søk etter modul eller kategori"
+              autocomplete="off"
+            />
+            <button type="submit" class="btn btn-primary">Søk</button>
+          </form>
 
-        <div id="user-area" aria-label="Brukerområde">
-          <button type="button" id="open-command-palette-btn">Hurtigvalg</button>
-          <button type="button" id="open-notifications-btn">Varsler</button>
-          <button type="button" id="open-user-menu-btn">Konto</button>
+          <div id="user-area" aria-label="Brukerområde">
+            <button type="button" class="btn">Hurtigvalg</button>
+            <button type="button" class="btn">Varsler</button>
+            <button type="button" class="btn">Konto</button>
+          </div>
         </div>
       </div>
     </header>
 
     <div id="platform-layout">
       <aside id="sidebar" aria-label="JobHub navigasjon">
-        <nav id="primary-navigation" aria-label="Primærnavigasjon">
+        <nav id="primary-navigation" class="panel" aria-label="Primærnavigasjon">
           <h2>Navigasjon</h2>
           <ul>
-            <li><a href="index.html" aria-current="page">Startside</a></li>
+            <li><a href="#platform-intro">Startside</a></li>
             <li><a href="#mine-moduler">Mine moduler</a></li>
             <li><a href="#moduloversikt">Moduloversikt</a></li>
             <li><a href="#grunnprinsipper">Grunnprinsipper</a></li>
           </ul>
         </nav>
 
-        <section id="workspace-switcher" aria-labelledby="workspace-switcher-title">
+        <section id="workspace-switcher" class="panel" aria-labelledby="workspace-switcher-title">
           <h2 id="workspace-switcher-title">Arbeidsområde</h2>
-          <p>Standard arbeidsområde</p>
-          <button type="button">Bytt arbeidsområde</button>
+          <p>Standard arbeidsområde er aktivt.</p>
+          <button type="button" class="btn">Bytt arbeidsområde</button>
         </section>
 
-        <section id="module-status-overview" aria-labelledby="module-status-title">
+        <section id="module-status-overview" class="panel" aria-labelledby="module-status-title">
           <h2 id="module-status-title">Status</h2>
           <ul>
-            <li>Stabile moduler</li>
-            <li>Under utvikling</li>
-            <li>Kommende moduler</li>
+            <li><strong id="stable-modules-count">0</strong> aktive moduler</li>
+            <li><strong id="visible-categories-count">0</strong> kategorier i bruk</li>
+            <li><strong id="featured-modules-count">0</strong> utvalgte moduler</li>
+          </ul>
+        </section>
+
+        <section id="quick-links" class="panel" aria-labelledby="quick-links-title">
+          <h2 id="quick-links-title">Kategorier</h2>
+          <ul>
+            <li><a href="#dokumentverktoy">Dokumentverktøy</a></li>
+            <li><a href="#generatorer">Generatorer</a></li>
+            <li><a href="#kalkulatorer">Kalkulatorer</a></li>
+            <li><a href="#system">System</a></li>
           </ul>
         </section>
       </aside>
 
       <main id="main-content">
-        <section id="platform-intro" aria-labelledby="platform-intro-title">
-          <header>
-            <h2 id="platform-intro-title">JobHub som baseplattform</h2>
-            <p>
-              JobHub er inngangsporten til interne verktøy, dokumentmoduler,
-              generatorer og kalkulatorer. Målet er én felles struktur som gjør
-              det enkelt å forstå, enkelt å bruke og enkelt å bygge videre på.
-            </p>
-          </header>
+        <section id="platform-intro" class="hero" aria-labelledby="platform-intro-title">
+          <h2 id="platform-intro-title">JobHub som baseplattform</h2>
+          <p>
+            JobHub er bygget for å samle interne verktøy i én fast struktur. Hver modul ligger i sin egen mappe,
+            har egen `module.json`, og blir oppdaget automatisk. Det gir renere drift, mindre vedlikehold og bedre skalering.
+          </p>
 
-          <div id="platform-intro-actions" aria-label="Hurtighandlinger">
-            <a href="#mine-moduler">Gå til mine moduler</a>
-            <a href="#moduloversikt">Se moduloversikt</a>
+          <div class="hero-actions" aria-label="Hurtighandlinger">
+            <a href="#mine-moduler" class="btn btn-primary">Gå til mine moduler</a>
+            <a href="#moduloversikt" class="btn">Se moduloversikt</a>
           </div>
         </section>
 
-        <section id="mine-moduler" aria-labelledby="mine-moduler-title">
+        <section class="stats-grid" aria-label="Nøkkeltall">
+          <article class="stat-card">
+            <p class="stat-label">Totalt aktive moduler</p>
+            <p class="stat-value" id="total-modules-count">0</p>
+          </article>
+
+          <article class="stat-card">
+            <p class="stat-label">Utvalgte moduler</p>
+            <p class="stat-value" id="featured-count">0</p>
+          </article>
+
+          <article class="stat-card">
+            <p class="stat-label">Kategorier med innhold</p>
+            <p class="stat-value" id="category-count">0</p>
+          </article>
+
+          <article class="stat-card">
+            <p class="stat-label">Sist lastet modulregister</p>
+            <p class="stat-value" id="registry-status">OK</p>
+          </article>
+        </section>
+
+        <section id="mine-moduler" class="content-section" aria-labelledby="mine-moduler-title">
           <header>
             <h2 id="mine-moduler-title">Mine moduler</h2>
-            <p>Utvalgte moduler som vises automatisk fra modulregisteret.</p>
+            <p>Utvalgte moduler vises automatisk her. Hvis ingen er merket som utvalgte, vises de første tilgjengelige modulene.</p>
           </header>
 
-          <div id="mine-moduler-grid" data-collection="featured-modules">
-            <article class="module-card module-card-placeholder">
-              <header>
-                <p>Laster</p>
-                <h3>Henter moduler</h3>
-              </header>
-              <p>Modulregisteret leses inn automatisk.</p>
+          <div id="mine-moduler-grid" class="module-grid" data-collection="featured-modules">
+            <article class="empty-card">
+              Laster moduler...
             </article>
           </div>
         </section>
 
-        <section id="moduloversikt" aria-labelledby="moduloversikt-title">
+        <section id="moduloversikt" class="content-section" aria-labelledby="moduloversikt-title">
           <header>
             <h2 id="moduloversikt-title">Moduloversikt</h2>
-            <p>
-              Felles oversikt over tilgjengelige moduler i JobHub. Innholdet leses fra data/modules.json.
-            </p>
+            <p>Innholdet bygges automatisk fra `data/modules-index.json` og hver modul sin egen `module.json`.</p>
           </header>
 
-          <div id="module-category-grid">
-            <section id="dokumentverktoy" aria-labelledby="dokumentverktoy-title">
+          <div id="module-category-grid" class="category-grid">
+            <section id="dokumentverktoy" class="category-panel" aria-labelledby="dokumentverktoy-title">
               <h3 id="dokumentverktoy-title">Dokumentverktøy</h3>
               <div class="module-list" data-category="dokumentverktoy">
-                <article class="module-card module-card-placeholder">
-                  <header>
-                    <p>Laster</p>
-                    <h4>Henter dokumentverktøy</h4>
-                  </header>
-                  <p>Listen bygges automatisk fra modulregisteret.</p>
-                </article>
+                <article class="empty-card">Laster dokumentverktøy...</article>
               </div>
             </section>
 
-            <section id="generatorer" aria-labelledby="generatorer-title">
+            <section id="generatorer" class="category-panel" aria-labelledby="generatorer-title">
               <h3 id="generatorer-title">Generatorer</h3>
               <div class="module-list" data-category="generatorer">
-                <article class="module-card module-card-placeholder">
-                  <header>
-                    <p>Laster</p>
-                    <h4>Henter generatorer</h4>
-                  </header>
-                  <p>Listen bygges automatisk fra modulregisteret.</p>
-                </article>
+                <article class="empty-card">Laster generatorer...</article>
               </div>
             </section>
 
-            <section id="kalkulatorer" aria-labelledby="kalkulatorer-title">
+            <section id="kalkulatorer" class="category-panel" aria-labelledby="kalkulatorer-title">
               <h3 id="kalkulatorer-title">Kalkulatorer</h3>
               <div class="module-list" data-category="kalkulatorer">
-                <article class="module-card module-card-placeholder">
-                  <header>
-                    <p>Laster</p>
-                    <h4>Henter kalkulatorer</h4>
-                  </header>
-                  <p>Listen bygges automatisk fra modulregisteret.</p>
-                </article>
+                <article class="empty-card">Laster kalkulatorer...</article>
               </div>
             </section>
 
-            <section id="system" aria-labelledby="system-title">
+            <section id="system" class="category-panel" aria-labelledby="system-title">
               <h3 id="system-title">System</h3>
               <div class="module-list" data-category="system">
-                <article class="module-card module-card-placeholder">
-                  <header>
-                    <p>Laster</p>
-                    <h4>Henter systemmoduler</h4>
-                  </header>
-                  <p>Listen bygges automatisk fra modulregisteret.</p>
-                </article>
+                <article class="empty-card">Laster systemmoduler...</article>
               </div>
             </section>
           </div>
         </section>
 
-        <section id="grunnprinsipper" aria-labelledby="grunnprinsipper-title">
+        <section id="grunnprinsipper" class="content-section" aria-labelledby="grunnprinsipper-title">
           <header>
             <h2 id="grunnprinsipper-title">Grunnprinsipper</h2>
           </header>
 
-          <ul>
-            <li>Enkel og naturlig bruk.</li>
-            <li>Minst mulig støy og unødvendige steg.</li>
+          <ul class="principles-list">
             <li>Lik struktur på tvers av moduler.</li>
-            <li>Systemet skal hjelpe, ikke frustrere.</li>
-            <li>Moduler skal være forståelige uten forklaring fra utvikler.</li>
-            <li>Standardisering i base, fleksibilitet i modulene.</li>
-            <li>Tydelig skille mellom stabile og kommende verktøy.</li>
+            <li>Minst mulig manuelt vedlikehold.</li>
+            <li>Hver modul skal være lett å forstå og lett å åpne.</li>
+            <li>Ny modul skal kunne legges inn uten å redigere hele plattformen.</li>
+            <li>Basen skal være stabil, mens modulene skal kunne vokse fritt.</li>
+            <li>Tydelige kategorier og ren navigasjon.</li>
+            <li>Systemet skal hjelpe, ikke skape ekstra arbeid.</li>
           </ul>
         </section>
       </main>
     </div>
 
     <footer id="global-footer">
-      <p>JobHub – baseplattform for praktiske arbeidsverktøy.</p>
+      <div id="global-footer-inner">
+        JobHub er baseplattformen for praktiske arbeidsverktøy i Traktor og Maskin AS.
+      </div>
     </footer>
   </div>
 
   <script>
-    async function loadModules() {
-      const featuredContainer = document.querySelector('[data-collection="featured-modules"]');
-      const categoryContainers = document.querySelectorAll("[data-category]");
+    const featuredContainer = document.querySelector('[data-collection="featured-modules"]');
+    const categoryContainers = Array.from(document.querySelectorAll('[data-category]'));
+    const searchForm = document.getElementById('global-search-form');
+    const searchInput = document.getElementById('global-search-input');
 
+    let loadedModules = [];
+
+    async function loadModules() {
       try {
-        const response = await fetch("data/modules.json", { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error("Kunne ikke lese modulregister.");
+        const indexResponse = await fetch('data/modules-index.json', { cache: 'no-store' });
+        if (!indexResponse.ok) {
+          throw new Error('Kunne ikke lese modules-index.json');
         }
 
-        const modules = await response.json();
+        const modulePaths = await indexResponse.json();
 
-        const visibleModules = modules.filter((module) => module.visible);
-        const featuredModules = visibleModules.filter((module) => module.featured);
+        if (!Array.isArray(modulePaths)) {
+          throw new Error('Modulregisteret har ugyldig format.');
+        }
 
-        featuredContainer.innerHTML = featuredModules.length
-          ? featuredModules.map(renderModuleCard).join("")
-          : renderEmptyCard("Ingen utvalgte moduler registrert.");
+        const moduleResults = await Promise.all(
+          modulePaths.map(async (modulePath) => {
+            const response = await fetch(`modules/${modulePath}/module.json`, { cache: 'no-store' });
+            if (!response.ok) {
+              throw new Error(`Kunne ikke lese module.json for ${modulePath}`);
+            }
 
-        categoryContainers.forEach((container) => {
-          const category = container.dataset.category;
-          const categoryModules = visibleModules.filter((module) => module.category === category);
+            const moduleData = await response.json();
+            return normalizeModule(moduleData, modulePath);
+          })
+        );
 
-          container.innerHTML = categoryModules.length
-            ? categoryModules.map(renderModuleCard).join("")
-            : renderEmptyCard("Ingen moduler registrert i denne kategorien.");
-        });
+        loadedModules = moduleResults.filter(Boolean);
+
+        renderAllModules(loadedModules);
+        updateStats(loadedModules);
       } catch (error) {
         console.error(error);
-        featuredContainer.innerHTML = renderEmptyCard("Kunne ikke laste modulregister.");
-        categoryContainers.forEach((container) => {
-          container.innerHTML = renderEmptyCard("Kunne ikke laste modulregister.");
-        });
+        renderLoadError('Kunne ikke laste modulregister.');
       }
     }
 
+    function normalizeModule(moduleData, modulePath) {
+      const parts = String(modulePath).split('/');
+      const fallbackCategory = parts[0] || 'ukjent';
+      const fallbackSlug = parts[1] || parts[0] || 'modul';
+
+      return {
+        id: safeText(moduleData.id || fallbackSlug),
+        title: safeText(moduleData.title || fallbackSlug),
+        description: safeText(moduleData.description || 'Ingen beskrivelse registrert.'),
+        entry: safeText(moduleData.entry || 'index.html'),
+        category: safeText(moduleData.category || fallbackCategory),
+        status: safeText(moduleData.status || 'Aktiv'),
+        featured: Boolean(moduleData.featured),
+        visible: moduleData.visible !== false,
+        modulePath
+      };
+    }
+
+    function renderAllModules(modules) {
+      const visibleModules = modules.filter((module) => module.visible);
+
+      const featuredModules = visibleModules.filter((module) => module.featured);
+      const fallbackFeatured = visibleModules.slice(0, 4);
+      const modulesForFeatured = featuredModules.length ? featuredModules : fallbackFeatured;
+
+      featuredContainer.innerHTML = modulesForFeatured.length
+        ? modulesForFeatured.map(renderModuleCard).join('')
+        : renderEmptyCard('Ingen moduler tilgjengelig.');
+
+      categoryContainers.forEach((container) => {
+        const category = container.dataset.category;
+        const categoryModules = visibleModules.filter((module) => module.category === category);
+
+        container.innerHTML = categoryModules.length
+          ? categoryModules.map(renderModuleCard).join('')
+          : renderEmptyCard('Ingen moduler registrert i denne kategorien.');
+      });
+    }
+
     function renderModuleCard(module) {
+      const moduleHref = `modules/${module.modulePath}/${module.entry}`;
+
       return `
-        <article class="module-card" data-module-id="${escapeHtml(module.id)}">
-          <header>
-            <p>${escapeHtml(module.status)}</p>
-            <h4>${escapeHtml(module.name)}</h4>
-          </header>
+        <article class="module-card" data-module-id="${escapeHtml(module.id)}" data-module-title="${escapeHtml(module.title.toLowerCase())}" data-module-category="${escapeHtml(module.category.toLowerCase())}">
+          <div class="module-card-header">
+            <div>
+              <h4>${escapeHtml(module.title)}</h4>
+              <p class="module-meta">${escapeHtml(module.category)}</p>
+            </div>
+            <span class="module-status">${escapeHtml(module.status)}</span>
+          </div>
           <p>${escapeHtml(module.description)}</p>
-          <p><a href="${escapeAttribute(module.path)}">Åpne modul</a></p>
+          <div class="module-card-actions">
+            <a class="module-link" href="${escapeAttribute(moduleHref)}">Åpne modul</a>
+          </div>
         </article>
       `;
     }
 
     function renderEmptyCard(message) {
       return `
-        <article class="module-card module-card-empty">
-          <header>
-            <p>Status</p>
-            <h4>Ingen moduler</h4>
-          </header>
-          <p>${escapeHtml(message)}</p>
+        <article class="empty-card">
+          ${escapeHtml(message)}
         </article>
       `;
     }
 
+    function renderLoadError(message) {
+      featuredContainer.innerHTML = renderEmptyCard(message);
+      categoryContainers.forEach((container) => {
+        container.innerHTML = renderEmptyCard(message);
+      });
+
+      document.getElementById('registry-status').textContent = 'Feil';
+      document.getElementById('total-modules-count').textContent = '0';
+      document.getElementById('featured-count').textContent = '0';
+      document.getElementById('category-count').textContent = '0';
+      document.getElementById('stable-modules-count').textContent = '0';
+      document.getElementById('visible-categories-count').textContent = '0';
+      document.getElementById('featured-modules-count').textContent = '0';
+    }
+
+    function updateStats(modules) {
+      const visibleModules = modules.filter((module) => module.visible);
+      const featuredModules = visibleModules.filter((module) => module.featured);
+      const activeCategories = new Set(visibleModules.map((module) => module.category));
+
+      document.getElementById('registry-status').textContent = 'OK';
+      document.getElementById('total-modules-count').textContent = String(visibleModules.length);
+      document.getElementById('featured-count').textContent = String(featuredModules.length || Math.min(visibleModules.length, 4));
+      document.getElementById('category-count').textContent = String(activeCategories.size);
+      document.getElementById('stable-modules-count').textContent = String(visibleModules.length);
+      document.getElementById('visible-categories-count').textContent = String(activeCategories.size);
+      document.getElementById('featured-modules-count').textContent = String(featuredModules.length || Math.min(visibleModules.length, 4));
+    }
+
+    function filterModules(term) {
+      const normalizedTerm = term.trim().toLowerCase();
+      const cards = Array.from(document.querySelectorAll('.module-card'));
+
+      if (!normalizedTerm) {
+        cards.forEach((card) => card.classList.remove('hidden'));
+        return;
+      }
+
+      cards.forEach((card) => {
+        const title = card.dataset.moduleTitle || '';
+        const category = card.dataset.moduleCategory || '';
+        const match = title.includes(normalizedTerm) || category.includes(normalizedTerm);
+
+        card.classList.toggle('hidden', !match);
+      });
+    }
+
+    function safeText(value) {
+      return String(value || '').trim();
+    }
+
     function escapeHtml(value) {
       return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
     }
 
     function escapeAttribute(value) {
       return escapeHtml(value);
     }
+
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      filterModules(searchInput.value);
+    });
+
+    searchInput.addEventListener('input', () => {
+      filterModules(searchInput.value);
+    });
 
     loadModules();
   </script>
