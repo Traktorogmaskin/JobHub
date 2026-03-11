@@ -1,49 +1,33 @@
-JobHub – Masterinstruks for AI (v2)
-1. Rolle og mandat
+JobHub – Masterinstruks for AI (plattformarkitektur)
+Denne filen er én samlet instruks som kan brukes i nye ChatGPT-chatter for utvikling av JobHub. Den beskriver plattformens arkitektur, prinsipper og struktur slik at systemet kan utvikles videre uten ombygging.
 
-Du hjelper til med utvikling, strukturering og videreutbygging av JobHub.
+1. Hva JobHub er
 
-JobHub er en modulbasert plattform som bygges for daglig operativ bruk og langsiktig vekst. Plattformen skal kunne utvikles kontinuerlig uten at grunnarkitekturen må bygges om.
+JobHub er en modulbasert intern plattform for bedriftsverktøy.
 
-AI skal alltid arbeide med JobHub som ett samlet plattformsystem med flere separate moduler, ikke som ett enkeltstående prosjekt.
+Plattformen skal samle mange forskjellige typer verktøy i ett system, samtidig som hver funksjon kan utvikles uavhengig av de andre.
 
-2. Overordnet mål
+JobHub er ikke:
 
-Målet er å utvikle JobHub som et robust, utvidbart og operativt system der nye moduler, verktøy, datatyper og integrasjoner kan legges til over tid uten å bryte eksisterende struktur.
+et rent logistikksystem
 
-Systemet skal støtte daglig drift, reell arbeidsflyt, historikk, dokumentasjon, kommunikasjon og fremtidig ekspansjon.
+et ERP-system
 
-3. Ufravikelige prinsipper
+en kalkulatorplattform
 
-Disse prinsippene skal alltid ligge til grunn for alle forslag, endringer og utvidelser:
+en dokumentmappe
 
-JobHub skal alltid beholdes som en modulbasert plattform.
+JobHub er:
 
-Moduler skal ikke blandes sammen unødvendig.
+en plattform for mange moduler og interne verktøy.
 
-Hver modul skal kunne utvikles, vedlikeholdes og utvides separat.
+Alle funksjoner implementeres som moduler.
 
-Felles funksjoner skal løses sentralt, ikke kopieres inn i hver modul.
+Ingen modul er hovedmodul.
 
-Alle moduler skal kunne kobles til et felles datalag.
+2. Grunnprinsipp
 
-Nye moduler skal kunne legges til uten å kreve ombygging av hele systemet.
-
-Operativ bruk skal alltid prioriteres over visuelt design.
-
-Løsninger skal være enkle, robuste og forståelige.
-
-Unødvendig kompleksitet skal unngås.
-
-Informasjon skal organiseres slik at brukeren ser oversikt først og detaljer ved behov.
-
-Arkitekturvalg skal støtte daglig utbygging over tid.
-
-Ingen løsning skal foreslås dersom den låser systemet til én modul, én arbeidsflyt eller én fremtidig retning.
-
-4. Plattformforståelse
-
-JobHub skal forstås som følgende hovedstruktur:
+JobHub bygges rundt tre lag:
 
 Plattformskall
 
@@ -51,784 +35,344 @@ Moduler
 
 Felles datalag
 
-Rettighetsstyring
+Dette gjør systemet stabilt og utvidbart.
 
-Integrasjoner
+3. Overordnet systemkart
+JOBHUB
+│
+├ Plattformskall
+│
+├ Modulstruktur
+│
+├ Felles datalag
+│
+└ Integrasjoner
+4. Plattformskallet
 
-Arkiv og historikk
+Plattformskallet er kjernen i systemet og inneholder funksjoner som gjelder alle moduler.
 
-Plattformskallet er felles fundament. Modulene er funksjonelle arbeidsområder. Datalaget binder systemet sammen. Integrasjoner kobler JobHub til eksterne og fremtidige systemer.
+Plattformskallet skal inneholde:
 
-5. Plattformskall
+Dashboard
+Modulnavigasjon
+Globalt søk
+Brukerhåndtering
+Roller og tilgang
+Språkvalg
+Systeminnstillinger
+Varsler
+Felles UI-struktur
 
-Plattformskallet skal være nøytralt og ikke bygges rundt én spesifikk modul.
+Plattformskallet skal være nøytralt.
 
-Det skal kunne håndtere:
+Ingen modul skal kontrollere plattformen.
 
-global navigasjon
+5. Modularkitektur
 
-modulnavigasjon
+Alle funksjoner i JobHub implementeres som moduler.
 
-dashboard
+Moduler skal kunne:
 
-språkvalg
+utvikles separat
 
-brukerinnstillinger
+oppdateres separat
 
-rettigheter og roller
+legges til senere uten ombygging
 
-globalt søk
+Moduler kan bruke felles datalag når det er relevant.
 
-varsler
+Eksempler på eksisterende og planlagte moduler:
 
-felles layout
+MODULER
 
-brukerhåndtering
+Logistikk
+Dokumenthub
+Kommunikasjonshub
+Møtereferat / oppsummering
+Produktark
 
-tilgangsstyring
+Leasingkalkulator
+Tilhengerkalkulator
 
-Plattformskallet skal være stabilt nok til å bære mange moduler samtidig.
+QR-kode generator
+Etikettgenerator
 
-6. Dashboard
+PDF → JPG
+AVIF → JPG
 
-Dashboardet er brukerens inngang til systemet.
+Fremtidige moduler
 
-Det skal først og fremst gi:
+Listen er ikke begrensende.
 
-tilgang til moduler
+Nye moduler kan alltid legges til.
 
-snarveier til viktig arbeid
+6. Viktig regel om moduler
 
-nøkkelinformasjon
+Ingen modul er en hovedmodul.
 
-relevant status
+Eksempel:
 
-rask vei videre til operativ handling
+Logistikk er en modul.
 
-Dashboardet skal ikke fylles med unødvendig visuelt innhold dersom det reduserer effektiv bruk.
+Dokumenthub er en modul.
 
-7. Modularkitektur
+Kalkulatorer er moduler.
 
-Hver modul skal være en separat funksjonell enhet med tydelig ansvar.
+Alle moduler eksisterer på samme nivå.
 
-En modul kan ha:
+Plattformskallet er systemets sentrum.
 
-egen visning
+7. Modulgrupper
 
-egen arbeidslogikk
+For å holde systemet ryddig kan moduler grupperes logisk.
 
-egne filtre
+Eksempel:
 
-egne handlinger
+Forretningsmoduler
 
-egne undernivåer
+Logistikk
+Dokumenthub
+Kommunikasjonshub
+Møtereferat
+Produktark
 
-egne tabeller eller skjemaer
+Salgsverktøy
 
-Men modulen skal fortsatt bruke plattformens:
+Leasingkalkulator
+Tilhengerkalkulator
+Andre kalkulatorer
 
-navigasjon
+Produksjonsverktøy
 
-roller
+QR-kode
+Etikett
+Produktmerking
 
-språkstruktur
+Fil- og medieverktøy
 
-felles datamodell der det er relevant
+PDF → JPG
+AVIF → JPG
+Andre konverteringsverktøy
 
-felles søk der det er relevant
+Dette er kun kategorier for oversikt.
 
-felles objekter og koblinger
-
-En modul skal aldri bygges på en måte som gjør hele plattformen avhengig av den.
+Arkitekturen skal ikke begrense hvilke moduler som kan opprettes.
 
 8. Felles datalag
 
-JobHub skal ha et felles datalag som gjør at moduler kan dele, lese og koble data på tvers når det er relevant.
+JobHub skal bruke et felles datalag der det er naturlig.
 
-Data skal ikke dupliseres unødvendig i flere separate siloer.
+Dette gjør det mulig å dele informasjon mellom moduler.
 
-Når flere moduler peker på samme virkelige objekt, skal de bruke samme grunnobjekt.
-
-Eksempler på sentrale kjerneobjekter:
-
-leverandør
-
-kunde
-
-bestilling
-
-lass
-
-dokument
-
-kommunikasjon
-
-historikk
-
-bruker
-
-rolle
-
-produkt
-
-vedlegg
-
-varsel
-
-kommentar
-
-oppsummering
-
-AI skal alltid forsøke å utvide eksisterende felles struktur før det foreslås nye parallelle datastrukturer.
-
-9. Dataprinsipper
-
-Ved strukturering av data skal følgende gjelde:
-
-Ett objekt skal bare ha én logisk grunnidentitet.
-
-Relasjoner mellom objekter skal være tydelige.
-
-Historikk skal kunne spores.
-
-Dokumenter og kommunikasjon skal kunne kobles til relevante objekter.
-
-Data skal kunne brukes av flere moduler uten omskriving.
-
-Arkiverte data skal fortsatt være søkbare.
-
-Nye felter og utvidelser skal kunne legges til uten å ødelegge eksisterende struktur.
-
-10. Anbefalte kjerneobjekter
-
-Følgende objekter skal regnes som sentrale i JobHub og kunne gjenbrukes på tvers av moduler:
+Eksempler på objekter i datalaget:
 
 Leverandør
-
-Felter kan inkludere:
-
-id
-
-navn
-
-land
-
-fabrikk
-
-standardspråk
-
-standard leveringstid
-
-kapasitet
-
-status
-
 Kunde
-
-Felter kan inkludere:
-
-id
-
-navn
-
-kontaktinformasjon
-
-portaltilgang
-
-historikk
-
 Bestilling
-
-Felter kan inkludere:
-
-id
-
-bestillingsnummer
-
-serienummer
-
-kunde
-
-leverandør
-
-produktinformasjon
-
-status
-
-prioritet
-
-ønsket levering
-
-tildelt lass
-
-ordretype
-
-tags
-
-vedlegg
-
-kommentarer
-
-historikk
-
-spesifikasjoner
-
-opprettet dato
-
-oppdatert dato
-
-Lass
-
-Felter kan inkludere:
-
-id
-
-leverandør
-
-navn eller nummer
-
-status
-
-kapasitet
-
-kapasitetstype
-
-leveringstid
-
-toppnotat
-
-arkivstatus
-
-opprettet dato
-
-levert dato
-
+Produkt
 Dokument
-
-Felter kan inkludere:
-
-id
-
-filnavn
-
-dokumenttype
-
-nivå
-
-koblet objekt
-
-opplastet dato
-
-opplastet av
-
-metadata
-
 Kommunikasjon
-
-Felter kan inkludere:
-
-id
-
-kanal
-
-dato
-
-avsender
-
-mottaker
-
-emne
-
-tekst
-
-vedlegg
-
-koblinger til relevante objekter
-
-viktighetsnivå
-
-oppfølgingsstatus
-
-Oppsummering
-
-Felter kan inkludere:
-
-id
-
-nivå
-
-koblet objekt
-
-lovet levering
-
-forsinkelser
-
-avvik
-
-bekreftelser
-
-endringer
-
-neste oppfølging
-
-ansvarlig
-
-sist oppdatert
-
 Historikk
+Bruker
+Rolle
+Kommentar
+Vedlegg
+Varsel
 
-Felter kan inkludere:
+Ikke alle moduler bruker alle objekter.
 
-id
+Men strukturen må gjøre det mulig.
 
-objekttype
+9. Dataregler
 
-objekt-id
+Følgende regler gjelder:
 
-hendelse
+Data skal ikke dupliseres unødvendig.
 
-dato
+Hvis flere moduler bruker samme informasjon bør den ligge i felles datalag.
 
-bruker
+Moduler kan ha egne spesifikke data utenfor felles strukturen.
 
-kommentar
+10. Teknisk struktur
 
-11. Nåværende og fremtidige modultyper
+JobHub skal bruke enkel og robust filstruktur.
 
-JobHub skal kunne romme mange moduler. AI skal alltid tenke at nye moduler kan komme løpende.
+Eksempel:
 
-Eksempler på nåværende eller forventede modulområder:
+index.html
+css/
+js/
+data/
+shared/
+modules/
+assets/
+11. Modulstruktur
 
-logistikk
+Eksempel:
 
-dokumenthub
+modules/
 
-kommunikasjonshub
+logistikk/
+dokumenthub/
+kommunikasjon/
+motereferat/
+produktark/
 
-oppsummeringsmodul
+leasingkalkulator/
+tilhengerkalkulator/
 
-produktark
+qr-kode/
+etikett/
 
-kundeportal
+pdf-til-jpg/
+avif-til-jpg/
 
-leverandørvisning
+Strukturen skal gjøre det enkelt å legge til nye moduler.
 
-kalkulatorer og salgsverktøy
+12. Brukerroller
 
-merkeverktøy
-
-konverteringsverktøy
-
-rapportering
-
-eksportmoduler
-
-analysemoduler
-
-Dette er eksempler, ikke en begrensning.
-
-12. Logistikkmodulen
-
-Logistikkmodulen er en sentral operativ modul i JobHub.
-
-Den kan håndtere blant annet:
-
-bestillinger
-
-lass
-
-leverandører
-
-leveringstid
-
-prioritering
-
-dokumentkobling
-
-historikk
-
-arkiv
-
-søk
-
-filter
-
-eksport
-
-Dersom det finnes en egen definert grunnstruktur for logistikkmodulen, skal den ikke endres uten eksplisitt beskjed.
-
-AI skal derfor være svært forsiktig med å foreslå strukturelle endringer i denne modulen dersom de påvirker kjernelogikken.
-
-13. Dokumenthub
-
-Dokumenthuben skal være et strukturert system for dokumentlagring, ikke bare en mappevisning.
-
-Dokumenter skal kunne kobles til relevante objekter som:
-
-leverandør
-
-kunde
-
-bestilling
-
-lass
-
-produkt
-
-kommunikasjon
-
-Dokumenttyper kan for eksempel være:
-
-bestillingsdokumenter
-
-fakturaer
-
-tolldokumenter
-
-fraktpapirer
-
-tegninger
-
-reklamasjoner
-
-spesifikasjonsark
-
-sertifikater
-
-14. Kommunikasjonshub
-
-Kommunikasjonshuben skal samle rå kommunikasjon fra flere kilder.
+Systemet skal støtte ulike roller.
 
 Eksempler:
 
-e-post
+Intern administrator
+Intern bruker
+Leverandørvisning
+Kundeportalbruker
 
-WhatsApp
+Tilgang bestemmer hva brukeren kan se og endre.
 
-Viber
+13. Språk
 
-SMS
+JobHub skal støtte flere språk.
 
-telefonnotater
+Minimum:
 
-manuelle meldinger
+Norsk
+Engelsk
 
-Kommunikasjon skal kunne kobles til relevante objekter og bidra til sporbarhet og dokumentasjon.
+Brukeren kan velge språk i grensesnittet.
 
-15. Oppsummeringsmodul
+Dette gjelder:
 
-Oppsummeringsmodulen skal trekke ut essensiell informasjon fra kommunikasjon, notater eller arbeidsflyt, slik at brukere slipper å lese alt manuelt.
+menyer
+knapper
+status
+systemtekst
 
-Den skal kunne vise:
+Fritekst oversettes ikke automatisk.
 
-hva som er lovet
+14. Brukergrensesnitt
 
-hva som er forsinket
+UI skal være:
 
-hva som er bekreftet
+kompakt
+raskt
+oversiktlig
+operativt
 
-hva som har endret seg
+Design skal ikke redusere arbeidsflyt.
 
-hva som mangler
+Informasjon skal vises i nivåer:
 
-hva som må følges opp
+oversikt
+detaljer
+full visning
 
-Denne modulen skal fungere som et operativt sammendrag, ikke som erstatning for rådata.
+15. Navigasjon
 
-16. Produktark og forretningsverktøy
+Navigasjonen skal gjøre det enkelt å åpne moduler.
 
-JobHub skal også kunne romme moduler som ikke er rene logistikkmoduler.
+Eksempel:
 
-Eksempler:
+Dashboard
+Logistikk
+Dokumenter
+Kommunikasjon
+Produktark
+Kalkulatorer
+Filverktøy
 
-produktark
+Navigasjonen må tåle at antall moduler øker.
 
-fabrikkdata
+16. Arkiv
 
-spesifikasjoner
+Gamle data skal arkiveres, men fortsatt være søkbare.
 
-interne produktnotater
+Dette inkluderer:
 
-leasingkalkulator
-
-tilhengerkalkulator
-
-andre salgsverktøy
-
-QR-kodeverktøy
-
-etikettverktøy
-
-filkonvertering
-
-Disse skal kunne leve som egne moduler uten å forstyrre andre moduler.
-
-17. Kundeportal og eksterne flater
-
-JobHub skal kunne utvides med eksterne flater som kundeportal og leverandørvisning.
-
-Disse skal lese fra eksisterende data, men bare vise filtrert og rollebasert informasjon.
-
-Eksterne brukere skal ikke få innsyn i:
-
-interne kommentarer
-
-intern prioritering
-
-interne notater
-
-annen kundedata
-
-intern leverandørdialog dersom det ikke er meningen
-
-AI skal alltid tenke på forskjellen mellom intern og ekstern synlighet.
-
-18. Roller og tilgang
-
-Systemet skal støtte rollebasert tilgangsstyring.
-
-Eksempler på roller:
-
-intern administrator
-
-intern bruker
-
-leverandørvisning
-
-kundeportalbruker
-
-Rettigheter skal kunne styre hva en bruker kan:
-
-se
-
-redigere
-
-laste opp
-
-kommentere
-
-eksportere
-
-godkjenne
-
-Tilgang skal vurderes som en del av arkitekturen, ikke bare som et tillegg i grensesnittet.
-
-19. Språk og lokalisering
-
-JobHub skal støtte flerspråklighet.
-
-Minimumsnivå er:
-
-norsk
-
-engelsk
-
-Språkvalg skal kunne håndteres i plattformskallet. AI skal skille mellom:
-
-systemtekster
-
-brukergrensesnitt
-
-datafelter
-
-fritekst
-
-dokumentinnhold
-
-Ikke alt skal oversettes automatisk.
-
-20. Søk
-
-JobHub skal kunne ha et globalt søk som over tid kan utvides til å søke på tvers av moduler.
-
-Det skal kunne omfatte blant annet:
-
-bestillinger
-
+historiske bestillinger
 dokumenter
-
-leverandører
-
-kunder
-
 kommunikasjon
+referater
 
-historikk
+Systemet skal gjøre det mulig å finne informasjon flere år tilbake.
 
-produkter
+17. Eksport
 
-Søk skal designes slik at det kan vokse sammen med plattformen.
+JobHub skal støtte eksport til:
 
-21. Arkiv og historikk
+PDF
+Excel
+JSON
 
-Systemet skal kunne lagre historiske data over lang tid uten at disse mister verdi.
+Dette gjelder lister, rapporter og datauttrekk.
 
-Arkiverte elementer skal fortsatt kunne:
+18. Integrasjoner
 
-finnes igjen
+Integrasjoner skal designes som påbyggbare koblinger.
 
-filtreres
+Eksempler:
 
-spores
+Nettbutikk
+Kundeportal
+E-post
+API
+Rapportering
 
-brukes som dokumentasjon
+Ingen modul skal være hardkoblet til en spesifikk integrasjon.
 
-Dette gjelder blant annet:
+19. Skalerbarhet
 
-gamle bestillinger
+JobHub skal bygges uten fast grense for antall moduler.
 
-leverte lass
+Arkitekturen må derfor:
 
-eldre dokumenter
+tåle nye moduler
+tåle flere roller
+tåle flere datatyper
+tåle integrasjoner
 
-kommunikasjon
+Plattformen skal kunne vokse uten ombygging.
 
-tidligere endringer
+20. AI-instruks
 
-22. Integrasjoner
+Når ChatGPT hjelper med utvikling av JobHub skal følgende regler følges:
 
-Integrasjoner skal bygges som utvidbare koblinger, ikke som hardkodede enkeltløsninger.
+Behold modulbasert arkitektur.
+Ikke gjør en modul til systemets sentrum.
+Skill mellom plattformfunksjon, modulfunksjon og datalag.
+Prioriter stabil struktur fremfor raske løsninger.
+Ikke foreslå løsninger som krever ombygging senere.
+Hold kode enkel, ryddig og utvidbar.
+Anta at nye moduler vil komme senere.
 
-Mulige integrasjonsområder:
+21. Kort systemprompt (brukes i ny chat)
+Du hjelper til med utvikling av JobHub.
 
-nettbutikk
+JobHub er en modulbasert plattform for interne verktøy.
 
-kundeportal
+Følg disse reglene:
 
-e-post
+Ingen modul er hovedmodul.
+Plattformskallet er systemets sentrum.
 
-WhatsApp
+Alle funksjoner implementeres som moduler.
+Moduler skal kunne legges til uten ombygging.
 
-Viber
+Skill mellom:
+plattformfunksjoner
+modulfunksjoner
+felles datalag.
 
-API-er
-
-eksport til PDF
-
-eksport til Excel
-
-eksterne ERP- eller støttesystemer
-
-AI skal alltid forsøke å holde integrasjoner frakoblet kjernelogikk så langt det er mulig.
-
-23. UI-prinsipp
-
-Brukergrensesnitt i JobHub skal bygges for faktisk arbeid.
-
-Følgende prioritering gjelder:
-
-Oversikt først
-
-Operativ verdi foran pynt
-
-Kompakt og effektiv visning ved store datamengder
-
-Detaljer ved klikk eller behov
-
-Lav støy
-
-Konsistent logikk på tvers av moduler
-
-Gjenkjennelige arbeidsmønstre i hele plattformen
-
-AI skal unngå å foreslå grensesnitt som ser bra ut, men svekker arbeidsflyt.
-
-24. Teknisk tenkemåte
-
-AI skal foreslå tekniske løsninger som støtter:
-
-modulær vekst
-
-tydelig ansvarsdeling
-
-enkel videreutvikling
-
-gjenbruk av felles komponenter
-
-minimal kobling mellom moduler
-
-robusthet i drift
-
-enkel feilsøking
-
-Det er ønskelig med struktur som gjør det lett å legge til nye moduler, nye datatyper og nye visninger uten å endre hele systemet.
-
-25. Daglig utbygging
-
-JobHub skal utvikles gradvis og kontinuerlig.
-
-AI må derfor arbeide på en måte som tåler at:
-
-nye behov oppstår ofte
-
-nye moduler kommer senere
-
-eksisterende moduler forbedres fortløpende
-
-systemet går fra enkel bruk til større plattformbruk
-
-Alle forslag skal vurderes ut fra om de tåler daglig videreutvikling over lang tid.
-
-26. Hvordan AI skal opptre i praksis
-
-Når AI hjelper med JobHub, skal den:
-
-tenke plattform, ikke enkeltside
-
-bevare modulgrenser
-
-bruke og styrke felles datalag
-
-prioritere operativ nytte
-
-foreslå løsninger som kan utvides
-
-holde strukturen ryddig og robust
-
-unngå overdesign og unødvendig kompleksitet
-
-respektere eksisterende grunnstruktur når den allerede er definert
-
-være forsiktig med endringer som skaper fremtidig ombyggingsbehov
-
-27. Forbudte arkitekturmønstre
-
-AI skal unngå å foreslå løsninger som:
-
-blander flere moduler sammen i én tett struktur
-
-kopierer samme funksjon inn i flere moduler
-
-lager separate datasiloer for samme objekt
-
-bygger hele plattformen rundt én enkelt modul
-
-løser kortsiktige behov på en måte som skaper ombyggingsbehov senere
-
-prioriterer visuell pynt over arbeidsflyt
-
-gjør fremtidige integrasjoner vanskeligere
-
-28. Konklusjon
-
-JobHub er et langsiktig system for daglig vekst.
-
-Det skal utvikles som en modulbasert plattform med felles datalag, tydelige modulgrenser, operativt fokus og høy utvidbarhet.
-
-All AI-hjelp, arkitekturtenkning, kode, struktur og videreutvikling skal støtte dette målet.
-
-Jeg har laget JobHub – Masterinstruks for AI (v2) som en mer profesjonell og strammere arkitekturfil i canvas.
-
-Den er skrevet som en ren styringsinstruks for AI, med:
-
-tydelige arkitekturprinsipper
-
-plattformlogikk
-
-modulregler
-
-felles datalag
-
-roller, søk, språk, arkiv og integrasjoner
-
-klare føringer for daglig videreutvikling
+Prioriter enkel, robust og utvidbar arkitektur.
