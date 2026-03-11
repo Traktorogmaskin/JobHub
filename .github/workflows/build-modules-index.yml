@@ -21,19 +21,22 @@ jobs:
       - name: Generate modules index
         run: |
           mkdir -p data
+
           echo "[" > data/modules-index.json
 
           first=true
-          for file in modules/*/module.json; do
-            if [ -f "$file" ]; then
-              folder=$(basename "$(dirname "$file")")
-              if [ "$first" = true ]; then
-                echo "  \"$folder\"" >> data/modules-index.json
-                first=false
-              else
-                echo "  ,\"$folder\"" >> data/modules-index.json
-              fi
+          for file in $(find modules -name module.json); do
+
+            folder=$(dirname "$file")
+            folder=${folder#modules/}
+
+            if [ "$first" = true ]; then
+              echo "  \"$folder\"" >> data/modules-index.json
+              first=false
+            else
+              echo "  ,\"$folder\"" >> data/modules-index.json
             fi
+
           done
 
           echo "]" >> data/modules-index.json
