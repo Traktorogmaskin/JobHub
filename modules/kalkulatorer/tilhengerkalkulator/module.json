@@ -1,1 +1,7 @@
-
+{
+  "name": "Tilhengerkalkulator",
+  "slug": "tilhengerkalkulator",
+  "category": "kalkulatorer",
+  "entry": "index.html",
+  "enabled": true
+}
